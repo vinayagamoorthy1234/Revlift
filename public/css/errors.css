@@ -1,0 +1,24 @@
+@import "https://fonts.googleapis.com/css?family=Roboto:400,700";
+html, body {
+  height: 100%; }
+
+body {
+  background: #F5F5F5 none repeat scroll 0% 0%;
+  font-family: "Lato",sans-serif;
+  margin: 0px;
+  overflow-x: hidden; }
+
+.wrapper-page {
+  margin: 7.5% auto;
+  width: 420px; }
+
+h1 {
+  color: #252932;
+  font-size: 98px;
+  font-weight: 700;
+  line-height: 150px;
+  text-shadow: 1px 1px rgba(61, 61, 61, 0.3), 2px 2px rgba(61, 61, 61, 0.2), 3px 3px rgba(61, 61, 61, 0.3); }
+
+a.btn {
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
+  border-radius: 2px; }
