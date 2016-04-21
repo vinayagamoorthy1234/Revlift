@@ -141,6 +141,13 @@
 								document.getElementById('longitude').addEventListener('change', function() {
 									geocodeLatLng(geocoder, map, marker, infowindow);
 								});
+
+                              //Setting latitude and langitude by click on the map
+                               	google.maps.event.addListener(map, 'click', function(e) {
+                              		document.getElementById('latitude').value =  e.latLng.lat();
+									document.getElementById('longitude').value = e.latLng.lng();
+									geocodeLatLng(geocoder, map, marker, infowindow);									
+                                }); 
 							}
 
 							function geocodeLatLng(geocoder, map, marker, infowindow) {
