@@ -129,8 +129,13 @@
 								var geocoder = new google.maps.Geocoder;
 								var infowindow = new google.maps.InfoWindow;
 								
-								geocodeLatLng(geocoder, map, marker, infowindow);
-
+								document.getElementById('county').addEventListener('change', function() {
+									geocodeAddress(geocoder, map, marker, infowindow);
+								});
+								document.getElementById('state').addEventListener('change', function() {
+									geocodeAddress(geocoder, map, marker, infowindow);
+								});
+							
 								// LAT + LONG
 								document.getElementById('latitude').addEventListener('change', function() {
 									geocodeLatLng(geocoder, map, marker, infowindow);
@@ -138,6 +143,13 @@
 								document.getElementById('longitude').addEventListener('change', function() {
 									geocodeLatLng(geocoder, map, marker, infowindow);
 								});
+
+                              //Setting latitude and langitude by click on the map
+                               	google.maps.event.addListener(map, 'click', function(e) {
+                              		document.getElementById('latitude').value =  e.latLng.lat();
+									document.getElementById('longitude').value = e.latLng.lng();
+									geocodeLatLng(geocoder, map, marker, infowindow);							
+                                }); 
 							}
 
 							function geocodeLatLng(geocoder, map, marker, infowindow) {
@@ -150,7 +162,7 @@
 									if (status === google.maps.GeocoderStatus.OK) {
 										if(results[1]) {
 											map.setCenter(results[0].geometry.location);
-											map.setZoom(12);
+											map.setZoom(4);
 
 											marker.setMap(map);
 											marker.setPosition(results[0].geometry.location);
@@ -164,8 +176,12 @@
 											
 											// Set address in the fields provided so someone can override
 											var formatted_address = results[0].formatted_address;
+											 console.log(formatted_address);
 											var split = formatted_address.split(', ');
-											$('#state').val(split[2].split(' ')[0]);
+									        console.log(split);
+											$('#county').val(split[3]);
+											$('#state').val(split[2]);
+									
 
 											console.log(results);
 										}
@@ -174,6 +190,34 @@
 										}
 									} else {
 										console.log('Geocode failed due to: ' + status);
+									}
+								});
+							}
+
+							function geocodeAddress(geocoder, map, marker, infowindow) {
+							
+								var county = document.getElementById('county').value;
+								var state = document.getElementById('state').value;
+							
+
+								var full_address = county+' '+state;
+								geocoder.geocode({'address': full_address}, function(results, status) {
+									if (status === google.maps.GeocoderStatus.OK) {
+										map.setCenter(results[0].geometry.location);
+										map.setZoom(4);
+
+										marker.setMap(map);
+										marker.setPosition(results[0].geometry.location);
+										
+										infowindow.setContent(results[0].formatted_address);
+										infowindow.open(map, marker);
+
+										$('#latitude').val(results[0].geometry.location.lat);
+										$('#longitude').val(results[0].geometry.location.lng);
+
+										console.log(results);
+									} else {
+										console.log('Geocode was not successful for the following reason: ' + status);
 									}
 								});
 							}
